@@ -1,21 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app;
 
-import core.CalculatorEngine;
+import calculatorr.CalculatorLogic;
+import calculatorr.CommandHistory;
 import ui.CalculatorUI;
 
 public class CalculatorApp {
     private static CalculatorApp instance;
-    private CalculatorEngine engine;
+    
+    // نستخدم Logic و History بدلاً من Engine
+    private CalculatorLogic logic;
+    private CommandHistory history;
     private CalculatorUI ui;
 
     private CalculatorApp() {
-        this.engine = new CalculatorEngine();
-        this.ui = new CalculatorUI(engine);
+        // 1. إنشاء الدماغ (Logic)
+        this.logic = new CalculatorLogic();
+        
+        // 2. إنشاء السجل (History)
+        this.history = new CommandHistory();
+        
+        // 3. تمريرهما للواجهة
+        this.ui = new CalculatorUI(logic, history);
     }
 
     public static CalculatorApp getInstance() {
@@ -24,13 +29,4 @@ public class CalculatorApp {
         }
         return instance;
     }
-
-    public CalculatorEngine getEngine() {
-        return engine;
-    }
-    
-    public CalculatorUI getUI() {
-    return ui;
-}
-
 }

@@ -40,9 +40,10 @@ public class CalculatorEngine {
     public void chooseOperation(String operation) {
         if (currentOperand.isEmpty()) return;
 
+        // ❗ الإصلاح: إضافة || بين العمليتين
         if (isConversionOperation(operation) || isSmartOperation(operation)) {
             this.operation = operation;
-            compute(); // Execute directly
+            compute();
         } else {
             if (!previousOperand.isEmpty()) {
                 compute();
@@ -59,10 +60,12 @@ public class CalculatorEngine {
 
             if (operation.isEmpty()) {
                 result = evaluateExpression(currentOperand);
-            } else if (isConversionOperation(operation) || isSmartOperation(operation)) {
+            } 
+            // ❗ الإصلاح: إضافة || هنا أيضًا
+            else if (isConversionOperation(operation) || isSmartOperation(operation)) {
                 float current = Float.parseFloat(currentOperand);
                 Operation op = OperationFactory.createOperation(operation);
-                result = op.calculate(current, 0); // Pass dummy second operand
+                result = op.calculate(current, 0);
             } else {
                 if (previousOperand.isEmpty() || currentOperand.isEmpty()) return;
 
@@ -143,6 +146,7 @@ public class CalculatorEngine {
     }
 
     private boolean isSmartOperation(String op) {
-        return op.matches("[²³½2×]");
+        // ❗ الإصلاح: إزالة الرقم العربي "٢" من الـ regex
+        return op.matches("[²³½]");
     }
 }
